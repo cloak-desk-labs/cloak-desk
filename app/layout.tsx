@@ -12,7 +12,7 @@ const exo2 = Exo_2({
 
 // Base URL for absolute image URLs
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 
-  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://cloakdesk.app")
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://cloakdesk.xyz")
 
 export const metadata: Metadata = {
   title: "CloakDesk - Privacy-First Web Dashboard",
