@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* Base styles */
+@layer base {
+  body {
+    @apply bg-bg900 text-textPrimary font-sans antialiased;
+    /* Ensure dark mode is always on */
+    color-scheme: dark;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-bg800;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-bg700 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-electric/50;
+  }
+}
+
+/* Component styles */
+@layer components {
+  /* Glassmorphism effect */
+  .glass {
+    @apply bg-bg800/80 backdrop-blur-xl border border-white/10;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-primary bg-clip-text text-transparent;
+  }
+
+  /* Card styles */
+  .card {
+    @apply bg-bg800 rounded-2xl p-6 border border-transparent hover:border-primaryStart/20 transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply card hover:shadow-neon hover:scale-[1.02];
+  }
+
+  /* Primary button */
+  .btn-primary {
+    @apply bg-gradient-to-r from-primaryStart to-primaryEnd text-white px-5 py-2 rounded-xl shadow-neon hover:scale-[1.02] transition-all duration-200 font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100;
+  }
+
+  /* Secondary button */
+  .btn-secondary {
+    @apply bg-bg700 text-textSecondary px-5 py-2 rounded-xl border border-white/10 hover:border-primaryStart/30 transition-all duration-200 font-semibold;
+  }
+
+  /* Danger button */
+  .btn-danger {
+    @apply bg-danger/10 text-danger px-5 py-2 rounded-xl border border-danger/20 hover:bg-danger/20 transition-all duration-200 font-semibold;
+  }
+
+  /* Focus styles for accessibility */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-primaryStart focus:ring-offset-2 focus:ring-offset-bg900;
+  }
+
+  /* Badge styles */
+  .badge {
+    @apply inline-flex items-center px-2 py-1 rounded-md text-xs font-semibold;
+  }
+
+  .badge-success {
+    @apply badge text-success bg-success/10;
+  }
+
+  .badge-danger {
+    @apply badge text-danger bg-danger/10;
+  }
+
+  .badge-warning {
+    @apply badge text-warning bg-warning/10;
+  }
+
+  .badge-info {
+    @apply badge text-info bg-info/10;
+  }
+}
+
+/* Utility styles */
+@layer utilities {
+  /* Text truncation */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Neon glow animation */
+  .neon-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+}
+
