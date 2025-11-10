@@ -1,28 +1,129 @@
 "use client"
 
 import * as React from "react"
-import { useAccount } from "wagmi"
+import { useAccount, useBalance, useBlockNumber, usePublicClient } from "wagmi"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
-import { Shield, Wallet, Activity, TrendingUp } from "lucide-react"
-import { formatAddress } from "@/lib/utils"
+import { Shield, Wallet, Activity, TrendingUp, ExternalLink } from "lucide-react"
+import { formatAddress, formatEther } from "@/lib/utils"
 import Link from "next/link"
 import { WalletGraph } from "@/components/graphs/wallet-graph"
+import { getObfuscationTasks } from "@/lib/api"
+import { useQuery } from "@tanstack/react-query"
 
 /**
  * Overview page - Dashboard home
- * Shows KPIs, wallet summary, and recent activity
+ * Shows KPIs, wallet summary, and recent activity with REAL blockchain data
  */
 export default function OverviewPage() {
-  const { address } = useAccount()
+  const { address, chain } = useAccount()
+  const publicClient = usePublicClient()
+  
+  // Fetch real ETH balance
+  const { data: balance, isLoading: balanceLoading } = useBalance({
+    address: address,
+  })
 
-  // Mock data - in production, fetch from API
+  // Fetch block number for recent activity
+  const { data: blockNumber } = useBlockNumber()
+
+  // Fetch pending obfuscation tasks
+  const { data: tasksData } = useQuery({
+    queryKey: ["obfuscation-tasks", address],
+    queryFn: () => getObfuscationTasks(),
+    enabled: !!address,
+    refetchInterval: 30000, // Refetch every 30 seconds
+  })
+
+  // State for recent transactions
+  const [recentTransactions, setRecentTransactions] = React.useState<any[]>([])
+  const [isLoadingTransactions, setIsLoadingTransactions] = React.useState(false)
+
+  // Fetch recent transactions from blockchain
+  React.useEffect(() => {
+    if (!address || !publicClient || !blockNumber) return
+
+    const fetchTransactions = async () => {
+      setIsLoadingTransactions(true)
+      try {
+        const transactions: any[] = []
+        
+        // Try to get transaction history using getLogs for ERC20 transfers
+        // and also check recent blocks for ETH transfers
+        try {
+          // Get recent blocks (last 50 blocks) to find transactions
+          const blocksToCheck = Math.min(50, Number(blockNumber))
+          
+          // Check blocks in batches to avoid rate limits
+          for (let i = 0; i < Math.min(blocksToCheck, 20); i++) {
+            try {
+              const block = await publicClient.getBlock({
+                blockNumber: blockNumber - BigInt(i),
+                includeTransactions: true,
+              })
+              
+              if (block.transactions) {
+                for (const tx of block.transactions) {
+                  if (typeof tx === "object" && "from" in tx) {
+                    const isFromAddress = tx.from?.toLowerCase() === address?.toLowerCase()
+                    const isToAddress = tx.to?.toLowerCase() === address?.toLowerCase()
+                    
+                    if (isFromAddress || isToAddress) {
+                      transactions.push({
+                        hash: tx.hash,
+                        from: tx.from,
+                        to: tx.to,
+                        value: tx.value || BigInt(0),
+                        timestamp: new Date(Number(block.timestamp) * 1000),
+                        blockNumber: block.number,
+                      })
+                    }
+                  }
+                }
+              }
+              
+              // Stop if we have enough transactions
+              if (transactions.length >= 5) break
+            } catch (err) {
+              // Skip blocks that fail
+              continue
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching transactions:", error)
+        }
+        
+        // Sort by block number (newest first) and limit to 5
+        transactions.sort((a, b) => Number(b.blockNumber) - Number(a.blockNumber))
+        setRecentTransactions(transactions.slice(0, 5))
+      } catch (error) {
+        console.error("Error fetching transactions:", error)
+      } finally {
+        setIsLoadingTransactions(false)
+      }
+    }
+
+    fetchTransactions()
+    // Refetch every 30 seconds
+    const interval = setInterval(fetchTransactions, 30000)
+    return () => clearInterval(interval)
+  }, [address, publicClient, blockNumber])
+
+  // Calculate pending operations from real data
+  const pendingOps = React.useMemo(() => {
+    if (!tasksData?.data) return 0
+    return tasksData.data.filter(
+      (task) => task.status === "queued" || task.status === "processing"
+    ).length
+  }, [tasksData])
+
+  // Mock KPIs (these would come from privacy analysis API)
   const kpis = {
-    predictabilityScore: 42, // Lower is better
-    stealthCredits: 1250,
-    pendingOps: 3,
-    anonymityRank: 156,
+    predictabilityScore: 42, // Lower is better - would come from analysis API
+    stealthCredits: 1250, // Would come from credits API
+    pendingOps: pendingOps,
+    anonymityRank: 156, // Would come from leaderboard API
   }
 
   return (
@@ -105,13 +206,38 @@ export default function OverviewPage() {
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-muted">ETH Balance</span>
-                <span className="font-medium">2.45 ETH</span>
+                <span className="font-medium">
+                  {balanceLoading ? (
+                    <span className="text-muted">Loading...</span>
+                  ) : balance ? (
+                    `${parseFloat(formatEther(balance.value)).toFixed(4)} ${balance.symbol}`
+                  ) : (
+                    "0 ETH"
+                  )}
+                </span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-muted">USDC Balance</span>
-                <span className="font-medium">1,250 USDC</span>
+                <span className="text-muted">Network</span>
+                <span className="font-medium">{chain?.name || "Unknown"}</span>
               </div>
+              {address && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted">Address</span>
+                  <span className="font-mono text-xs">{formatAddress(address)}</span>
+                </div>
+              )}
             </div>
+            {chain?.blockExplorers?.default && address && (
+              <a
+                href={`${chain.blockExplorers.default.url}/address/${address}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm text-primaryStart hover:text-primaryEnd transition-colors"
+              >
+                View on Explorer
+                <ExternalLink className="h-3 w-3" />
+              </a>
+            )}
             <Button className="w-full" variant="primary">
               Make Private
             </Button>
@@ -127,28 +253,74 @@ export default function OverviewPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-start gap-4 rounded-lg border border-white/10 p-3">
-                <div className="h-2 w-2 rounded-full bg-success mt-2" />
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Obfuscation completed</p>
-                  <p className="text-xs text-muted">2 hours ago</p>
-                </div>
+            {isLoadingTransactions ? (
+              <div className="text-center py-8 text-muted">Loading transactions...</div>
+            ) : recentTransactions.length === 0 ? (
+              <div className="text-center py-8 text-muted">
+                <p className="text-sm">No recent transactions found</p>
+                <p className="text-xs mt-2">Transactions will appear here as they occur</p>
               </div>
-              <div className="flex items-start gap-4 rounded-lg border border-white/10 p-3">
-                <div className="h-2 w-2 rounded-full bg-warning mt-2" />
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Privacy score updated</p>
-                  <p className="text-xs text-muted">5 hours ago</p>
-                </div>
+            ) : (
+              <div className="space-y-4">
+                {recentTransactions.map((tx, index) => (
+                  <div
+                    key={tx.hash || index}
+                    className="flex items-start gap-4 rounded-lg border border-white/10 p-3 hover:border-primaryStart/30 transition-colors"
+                  >
+                    <div
+                      className={`h-2 w-2 rounded-full mt-2 ${
+                        tx.from?.toLowerCase() === address?.toLowerCase()
+                          ? "bg-danger"
+                          : "bg-success"
+                      }`}
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate">
+                        {tx.from?.toLowerCase() === address?.toLowerCase()
+                          ? "Sent"
+                          : "Received"}{" "}
+                        {tx.value ? formatEther(tx.value) : "0"} ETH
+                      </p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <p className="text-xs text-muted font-mono truncate">
+                          {tx.to && formatAddress(tx.to)}
+                        </p>
+                        {chain?.blockExplorers?.default && tx.hash && (
+                          <a
+                            href={`${chain.blockExplorers.default.url}/tx/${tx.hash}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primaryStart hover:text-primaryEnd transition-colors"
+                          >
+                            <ExternalLink className="h-3 w-3" />
+                          </a>
+                        )}
+                      </div>
+                      {tx.blockNumber && (
+                        <p className="text-xs text-muted mt-1">
+                          Block #{tx.blockNumber.toString()}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
-            </div>
+            )}
           </CardContent>
         </Card>
       </div>
 
       {/* Wallet Graph */}
-      <WalletGraph walletAddress={address} />
+      <WalletGraph 
+        walletAddress={address} 
+        connectedAddresses={recentTransactions
+          .map(tx => [tx.from, tx.to])
+          .flat()
+          .filter((addr): addr is string => !!addr && addr.toLowerCase() !== address?.toLowerCase())
+          .filter((addr, index, self) => self.indexOf(addr) === index)
+          .slice(0, 5)
+        }
+      />
 
       {/* Quick Actions */}
       <Card>

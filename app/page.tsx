@@ -59,8 +59,8 @@ export default function LandingPage() {
       icon: Route,
       title: "Stealth Routing",
       description: "Obfuscate transactions through multi-hop routing and relayer networks. Break transaction patterns and enhance privacy.",
-      color: "from-primaryEnd to-electric",
-      iconBg: "bg-primaryEnd/20",
+      color: "from-primaryStart to-primaryEnd",
+      iconBg: "bg-primaryStart/20",
       href: "/dashboard/stealth-routing",
     },
     {
@@ -83,8 +83,8 @@ export default function LandingPage() {
       icon: Eye,
       title: "Selective Disclosure",
       description: "Generate zero-knowledge proofs for verifiable claims without revealing sensitive information. Prove without exposing.",
-      color: "from-primaryEnd to-electric",
-      iconBg: "bg-primaryEnd/20",
+      color: "from-primaryStart to-electric",
+      iconBg: "bg-primaryStart/20",
       href: "/dashboard/selective-disclosure",
     },
     {
@@ -103,7 +103,7 @@ export default function LandingPage() {
       icon: Store,
       title: "Relayer Marketplace",
       description: "Browse and select from trusted relayers for transaction obfuscation. Compare fees, ratings, and compliance policies.",
-      color: "from-primaryStart/80 to-primaryEnd/80",
+      color: "from-primaryStart to-primaryEnd",
       iconBg: "bg-primaryStart/20",
       href: "/dashboard/relayer-marketplace",
     },
@@ -111,8 +111,8 @@ export default function LandingPage() {
       icon: Trophy,
       title: "Privacy Leaderboard",
       description: "Track your privacy ranking and compete with others. Earn badges for maintaining excellent privacy practices.",
-      color: "from-primaryEnd/80 to-electric/80",
-      iconBg: "bg-primaryEnd/20",
+      color: "from-primaryStart to-electric",
+      iconBg: "bg-primaryStart/20",
       href: "/dashboard/leaderboard",
     },
   ]
@@ -149,10 +149,10 @@ export default function LandingPage() {
         <ContainerScroll
           titleComponent={
             <>
-              <h2 className="text-4xl md:text-5xl font-bold text-textPrimary mb-4">
+              <h2 className="text-4xl md:text-5xl font-bold text-textPrimary mb-6">
                 Your Privacy Dashboard
               </h2>
-              <p className="text-xl md:text-2xl text-textSecondary max-w-3xl mx-auto">
+              <p className="text-xl md:text-2xl text-textSecondary max-w-3xl mx-auto mb-8">
                 Monitor your privacy health, analyze wallet exposure, and protect your blockchain anonymity
                 <br />
                 <span className="gradient-text font-semibold">all in one place</span>
@@ -201,14 +201,11 @@ export default function LandingPage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 <Link href={feature.href}>
-                  <Card hover className="h-full group relative overflow-hidden border-white/10 hover:border-primaryStart/30 transition-all duration-300">
-                    {/* Gradient overlay on hover */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
-                    
+                  <Card className="h-full group relative overflow-hidden border-white/10 hover:border-primaryStart/30 transition-all duration-300 hover:shadow-neon">
                     <CardHeader className="relative">
                       {/* Icon with gradient background */}
-                      <div className={`mb-4 flex h-14 w-14 items-center justify-center rounded-xl ${feature.iconBg} border border-white/10 group-hover:scale-110 transition-transform duration-300`}>
-                        <Icon className="h-7 w-7 text-primaryStart group-hover:text-primaryEnd transition-colors duration-300" />
+                      <div className={`mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br ${feature.color} border border-white/10 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                        <Icon className="h-7 w-7 text-white !text-white transition-colors duration-300" style={{ color: '#ffffff' }} />
                       </div>
                       <CardTitle className="text-xl mb-2 group-hover:text-primaryStart transition-colors duration-300">
                         {feature.title}
@@ -219,7 +216,7 @@ export default function LandingPage() {
                     </CardHeader>
                     <CardContent>
                       <div className="flex items-center text-sm text-primaryStart opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span className="mr-2">Learn more</span>
+                        <span className="mr-2 font-medium">Learn more</span>
                         <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
                       </div>
                     </CardContent>
@@ -260,14 +257,11 @@ export default function LandingPage() {
                 transition={{ duration: 0.5, delay: index * 0.15 }}
               >
                 <Link href={feature.href}>
-                  <Card hover className="h-full group relative overflow-hidden border-white/10 hover:border-primaryStart/30 transition-all duration-300">
-                    {/* Gradient overlay on hover */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
-                    
+                  <Card className="h-full group relative overflow-hidden border-white/10 hover:border-primaryStart/30 transition-all duration-300 hover:shadow-neon">
                     <CardHeader className="relative">
                       <div className="flex items-start gap-4">
-                        <div className={`flex h-16 w-16 items-center justify-center rounded-xl ${feature.iconBg} border border-white/10 group-hover:scale-110 transition-transform duration-300 flex-shrink-0`}>
-                          <Icon className="h-8 w-8 text-primaryStart group-hover:text-primaryEnd transition-colors duration-300" />
+                        <div className={`flex h-16 w-16 items-center justify-center rounded-xl bg-gradient-to-br ${feature.color} border border-white/10 group-hover:scale-110 transition-transform duration-300 flex-shrink-0 shadow-lg`}>
+                          <Icon className="h-8 w-8 text-white !text-white transition-colors duration-300" style={{ color: '#ffffff' }} />
                         </div>
                         <div className="flex-1">
                           <CardTitle className="text-2xl mb-2 group-hover:text-primaryStart transition-colors duration-300">
@@ -281,7 +275,7 @@ export default function LandingPage() {
                     </CardHeader>
                     <CardContent>
                       <div className="flex items-center text-sm text-primaryStart opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span className="mr-2">Explore</span>
+                        <span className="mr-2 font-medium">Explore</span>
                         <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
                       </div>
                     </CardContent>
@@ -354,19 +348,63 @@ export default function LandingPage() {
               Connect your wallet and start using CloakDesk to protect your blockchain privacy
             </p>
             <div className="flex justify-center gap-4">
-              {isConnected ? (
-                <Button
-                  onClick={() => router.push("/dashboard/overview")}
-                  size="lg"
-                  variant="primary"
-                  className="group"
-                >
-                  Go to Dashboard
-                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </Button>
-              ) : (
-                <ConnectButton />
-              )}
+              <ConnectButton.Custom>
+                {({
+                  account,
+                  chain,
+                  openAccountModal,
+                  openChainModal,
+                  openConnectModal,
+                  mounted,
+                }) => {
+                  const ready = mounted
+                  const connected = ready && account && chain
+
+                  return (
+                    <div
+                      {...(!ready && {
+                        "aria-hidden": true,
+                        style: {
+                          opacity: 0,
+                          pointerEvents: "none",
+                          userSelect: "none",
+                        },
+                      })}
+                    >
+                      {(() => {
+                        if (!connected) {
+                          return (
+                            <Button onClick={openConnectModal} variant="primary" size="lg" className="group">
+                              Connect Wallet
+                              <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                            </Button>
+                          )
+                        }
+
+                        if (chain.unsupported) {
+                          return (
+                            <Button onClick={openChainModal} variant="danger" size="lg">
+                              Wrong network
+                            </Button>
+                          )
+                        }
+
+                        return (
+                          <Button
+                            onClick={() => router.push("/dashboard/overview")}
+                            size="lg"
+                            variant="primary"
+                            className="group"
+                          >
+                            Go to Dashboard
+                            <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                          </Button>
+                        )
+                      })()}
+                    </div>
+                  )
+                }}
+              </ConnectButton.Custom>
             </div>
           </div>
         </motion.div>

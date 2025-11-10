@@ -9,33 +9,91 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
  * Wallet Graph Component
  * Visualizes wallet connections and network graph using Cytoscape.js
  * Enhanced with modern cyberpunk styling and animations
+ * Uses real addresses from transactions when available
  */
-export function WalletGraph({ walletAddress }: { walletAddress?: string }) {
+export function WalletGraph({ 
+  walletAddress, 
+  connectedAddresses = [] 
+}: { 
+  walletAddress?: string
+  connectedAddresses?: string[]
+}) {
   const containerRef = useRef<HTMLDivElement>(null)
   const cyRef = useRef<cytoscape.Core | null>(null)
 
   useEffect(() => {
     if (!containerRef.current) return
 
+    // Build nodes from real addresses
+    const nodes: any[] = []
+    const edges: any[] = []
+    
+    // Main wallet node
+    if (walletAddress) {
+      nodes.push({
+        data: {
+          id: "main",
+          label: walletAddress.slice(0, 6) + "..." + walletAddress.slice(-4),
+          type: "main",
+          address: walletAddress,
+        },
+      })
+    }
+
+    // Add connected addresses from real transactions
+    connectedAddresses.forEach((addr, index) => {
+      if (addr && addr.toLowerCase() !== walletAddress?.toLowerCase()) {
+        const nodeId = `node-${index}`
+        nodes.push({
+          data: {
+            id: nodeId,
+            label: addr.slice(0, 6) + "..." + addr.slice(-4),
+            type: "connected",
+            address: addr,
+          },
+        })
+        
+        // Connect to main wallet
+        if (walletAddress) {
+          edges.push({
+            data: {
+              id: `edge-${index}`,
+              source: "main",
+              target: nodeId,
+            },
+          })
+        }
+      }
+    })
+
+    // If no real addresses, show some placeholder nodes
+    if (nodes.length === 1 && edges.length === 0) {
+      // Add a few placeholder nodes to show the graph structure
+      for (let i = 0; i < 3; i++) {
+        const nodeId = `placeholder-${i}`
+        nodes.push({
+          data: {
+            id: nodeId,
+            label: `Address ${i + 1}...`,
+            type: "connected",
+          },
+        })
+        if (walletAddress) {
+          edges.push({
+            data: {
+              id: `edge-placeholder-${i}`,
+              source: "main",
+              target: nodeId,
+            },
+          })
+        }
+      }
+    }
+
     // Initialize Cytoscape with enhanced styling
     const cy = cytoscape({
       container: containerRef.current,
-      elements: [
-        // Mock nodes (wallets)
-        { data: { id: "main", label: walletAddress ? walletAddress.slice(0, 10) + "..." : "Main Wallet", type: "main" } },
-        { data: { id: "node1", label: "0x1111...", type: "connected" } },
-        { data: { id: "node2", label: "0x2222...", type: "connected" } },
-        { data: { id: "node3", label: "0x3333...", type: "connected" } },
-        { data: { id: "node4", label: "0x4444...", type: "decoy" } },
-        { data: { id: "node5", label: "0x5555...", type: "decoy" } },
-        
-        // Mock edges (connections)
-        { data: { id: "e1", source: "main", target: "node1" } },
-        { data: { id: "e2", source: "main", target: "node2" } },
-        { data: { id: "e3", source: "node1", target: "node3" } },
-        { data: { id: "e4", source: "main", target: "node4" } },
-        { data: { id: "e5", source: "main", target: "node5" } },
-      ],
+      elements: [...nodes, ...edges],
       style: [
         // Base node styling - connected wallets
         {
@@ -195,7 +253,7 @@ export function WalletGraph({ walletAddress }: { walletAddress?: string }) {
         cyRef.current = null
       }
     }
-  }, [walletAddress])
+  }, [walletAddress, connectedAddresses])
 
   return (
     <Card className="overflow-hidden">

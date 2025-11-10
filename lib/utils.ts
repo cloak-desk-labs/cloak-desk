@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { formatUnits } from "viem"
 
 /**
  * Utility function to merge Tailwind CSS classes
@@ -34,6 +35,22 @@ export function formatNumber(value: number | string, decimals = 2): string {
 export function formatTokenAmount(amount: string | number, symbol = "ETH", decimals = 4): string {
   const num = typeof amount === "string" ? parseFloat(amount) : amount
   return `${formatNumber(num, decimals)} ${symbol}`
+}
+
+/**
+ * Format wei to ether (from bigint or hex string)
+ */
+export function formatEther(value: bigint | string | undefined): string {
+  if (!value) return "0"
+  try {
+    if (typeof value === "string") {
+      return formatUnits(BigInt(value), 18)
+    }
+    return formatUnits(value, 18)
+  } catch (error) {
+    console.error("Error formatting ether:", error)
+    return "0"
+  }
 }
 
 /**

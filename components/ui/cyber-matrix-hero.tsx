@@ -4,6 +4,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Shield } from 'lucide-react';
 import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import { BorderTrail } from '@/components/ui/border-trail';
 
 /**
  * CyberMatrixHero Component
@@ -175,7 +177,10 @@ const CyberMatrixHero = () => {
       }} />
 
       {/* Overlay Content with CloakDesk Branding */}
-      <div className="relative z-10 text-center p-8 bg-bg900/70 backdrop-blur-xl rounded-2xl border border-white/10 shadow-neon-lg max-w-4xl mx-4 mt-16">
+      <div className="relative z-10 text-center p-8 bg-bg900/70 backdrop-blur-xl rounded-2xl border border-white/10 shadow-neon-lg max-w-4xl mx-4 mt-16 overflow-hidden">
+        {/* Border Trail Animation */}
+        <BorderTrail size={60} />
+        
         {/* Logo */}
         <motion.div
           custom={0}
@@ -239,17 +244,18 @@ const CyberMatrixHero = () => {
           animate="visible"
           className="flex justify-center"
         >
-          <a
-            href="#features"
+          <Button
+            variant="primary"
+            size="lg"
             onClick={(e) => {
               e.preventDefault();
               document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-primary text-white font-semibold rounded-xl shadow-neon hover:shadow-neon-lg transition-all duration-300 hover:scale-105"
+            className="group"
           >
             Explore Features
-            <ArrowRight className="h-5 w-5" />
-          </a>
+            <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+          </Button>
         </motion.div>
       </div>
     </div>

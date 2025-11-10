@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { AppShell } from "@/components/layout/app-shell"
 import { ConnectButton } from "@rainbow-me/rainbowkit"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
 
 /**
  * Dashboard layout with wallet connection guard
@@ -42,13 +43,60 @@ export default function DashboardLayout({
                 </DialogDescription>
               </DialogHeader>
               <div className="flex flex-col items-center gap-4 py-4">
-                <ConnectButton />
-                <button
+                <ConnectButton.Custom>
+                  {({
+                    account,
+                    chain,
+                    openAccountModal,
+                    openChainModal,
+                    openConnectModal,
+                    mounted,
+                  }) => {
+                    const ready = mounted
+                    const connected = ready && account && chain
+
+                    return (
+                      <div
+                        {...(!ready && {
+                          "aria-hidden": true,
+                          style: {
+                            opacity: 0,
+                            pointerEvents: "none",
+                            userSelect: "none",
+                          },
+                        })}
+                      >
+                        {(() => {
+                          if (!connected) {
+                            return (
+                              <Button onClick={openConnectModal} variant="primary" size="lg" className="group">
+                                Connect Wallet
+                              </Button>
+                            )
+                          }
+
+                          if (chain.unsupported) {
+                            return (
+                              <Button onClick={openChainModal} variant="danger" size="lg">
+                                Wrong network
+                              </Button>
+                            )
+                          }
+
+                          return null
+                        })()}
+                      </div>
+                    )
+                  }}
+                </ConnectButton.Custom>
+                <Button
                   onClick={() => router.push("/")}
-                  className="text-sm text-muted hover:text-textPrimary transition-colors"
+                  variant="ghost"
+                  size="sm"
+                  className="text-sm text-muted hover:text-textPrimary"
                 >
                   Back to landing page
-                </button>
+                </Button>
               </div>
             </DialogContent>
           </Dialog>

@@ -170,7 +170,7 @@ const HoverButton = React.forwardRef<HTMLButtonElement, HoverButtonProps>(
           />
         ))}
         {children && (
-          <span className="relative z-10 inline-flex items-center justify-center">{children}</span>
+        <span className="relative z-10 inline-flex items-center justify-center">{children}</span>
         )}
       </button>
     )
