@@ -50,7 +50,7 @@ export function WalletGraph({ walletAddress }: { walletAddress?: string }) {
             "width": 50,
             "height": 50,
             "font-size": "9px",
-            "font-weight": "500",
+            "font-weight": 500,
             "color": "#ffffff",
             "text-valign": "bottom",
             "text-halign": "center",
@@ -60,10 +60,6 @@ export function WalletGraph({ walletAddress }: { walletAddress?: string }) {
             "text-outline-opacity": 0.8,
             "shape": "ellipse",
             "overlay-opacity": 0,
-            // Add shadow effect
-            "text-shadow-blur": 4,
-            "text-shadow-color": "#7c3aed",
-            "text-shadow-opacity": 0.8,
           },
         },
         // Main wallet - larger with gradient effect
@@ -78,11 +74,7 @@ export function WalletGraph({ walletAddress }: { walletAddress?: string }) {
             "width": 70,
             "height": 70,
             "font-size": "10px",
-            "font-weight": "600",
-            // Enhanced glow for main wallet
-            "text-shadow-blur": 6,
-            "text-shadow-color": "#06b6d4",
-            "text-shadow-opacity": 1,
+            "font-weight": 600,
           },
         },
         // Decoy wallets - smaller with different color
@@ -97,7 +89,7 @@ export function WalletGraph({ walletAddress }: { walletAddress?: string }) {
             "width": 40,
             "height": 40,
             "font-size": "8px",
-            "font-weight": "500",
+            "font-weight": 500,
           },
         },
         // Hover effect for all nodes
@@ -129,7 +121,7 @@ export function WalletGraph({ walletAddress }: { walletAddress?: string }) {
             // Add subtle glow to edges
             "source-endpoint": "outside-to-node",
             "target-endpoint": "outside-to-node",
-          },
+          } as any,
         },
         // Edge hover effect
         {
@@ -138,9 +130,9 @@ export function WalletGraph({ walletAddress }: { walletAddress?: string }) {
             "width": 3.5,
             "line-opacity": 0.8,
             "target-arrow-opacity": 0.8,
-          },
+          } as any,
         },
-      ],
+      ] as any,
       layout: {
         name: "cose",
         padding: 40,

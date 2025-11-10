@@ -102,7 +102,7 @@ export default function PrivacyHealthPage() {
       <div>
         <h1 className="text-3xl font-bold text-textPrimary">Privacy Health</h1>
         <p className="mt-2 text-muted">
-          Analyze your wallet's predictability and privacy exposure
+          Analyze your wallet&apos;s predictability and privacy exposure
         </p>
       </div>
 

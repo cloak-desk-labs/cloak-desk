@@ -4,7 +4,7 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 
 interface HoverButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode
+  children?: React.ReactNode
   variant?: "primary" | "secondary" | "danger" | "ghost"
   size?: "sm" | "md" | "lg"
 }
@@ -169,7 +169,9 @@ const HoverButton = React.forwardRef<HTMLButtonElement, HoverButtonProps>(
             }}
           />
         ))}
-        <span className="relative z-10 inline-flex items-center justify-center">{children}</span>
+        {children && (
+          <span className="relative z-10 inline-flex items-center justify-center">{children}</span>
+        )}
       </button>
     )
   }
