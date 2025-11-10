@@ -27,6 +27,7 @@ import CyberMatrixHero from "@/components/ui/cyber-matrix-hero"
 import { ContainerScroll } from "@/components/ui/container-scroll-animation"
 import { LandingNavbar } from "@/components/layout/landing-navbar"
 import Image from "next/image"
+import { DOCS_URL } from "@/lib/utils"
 
 /**
  * Landing page component
@@ -425,7 +426,7 @@ export default function LandingPage() {
               <ul className="mt-2 space-y-2 text-sm text-muted">
                 <li>
                   <a 
-                    href={process.env.NEXT_PUBLIC_DOCS_URL || "http://localhost:3001"} 
+                    href={DOCS_URL} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="hover:text-textPrimary transition-colors"

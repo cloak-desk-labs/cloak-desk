@@ -3,6 +3,13 @@ import { twMerge } from "tailwind-merge"
 import { formatUnits } from "viem"
 
 /**
+ * Documentation URL - configured via environment variable
+ * Set NEXT_PUBLIC_DOCS_URL in your .env.local file
+ * Defaults to localhost:3001 for development
+ */
+export const DOCS_URL = process.env.NEXT_PUBLIC_DOCS_URL || "http://localhost:3001"
+
+/**
  * Utility function to merge Tailwind CSS classes
  * Combines clsx and tailwind-merge for optimal class handling
  */

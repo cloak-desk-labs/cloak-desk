@@ -9,6 +9,7 @@ import { useDisconnect } from "wagmi"
 import { Bell, Search, Menu, Book } from "lucide-react"
 import { useAppStore } from "@/state/useAppStore"
 import { Button } from "@/components/ui/button"
+import { DOCS_URL } from "@/lib/utils"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -74,7 +75,7 @@ export function Topbar() {
       <div className="flex items-center gap-2">
         {/* Documentation Link */}
         <a
-          href={process.env.NEXT_PUBLIC_DOCS_URL || "http://localhost:3001"}
+          href={DOCS_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-center rounded-lg h-9 w-9 text-muted hover:text-textPrimary hover:bg-bg800/30 transition-colors"

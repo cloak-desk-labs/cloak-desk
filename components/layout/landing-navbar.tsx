@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation"
 import { ConnectButton } from "@rainbow-me/rainbowkit"
 import { Book, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { DOCS_URL } from "@/lib/utils"
 
 /**
  * Landing Navbar Component
@@ -37,7 +38,7 @@ export function LandingNavbar() {
           <div className="flex items-center gap-2">
             {/* Documentation Link */}
             <a
-              href={process.env.NEXT_PUBLIC_DOCS_URL || "http://localhost:3001"}
+              href={DOCS_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-textSecondary hover:text-textPrimary hover:bg-bg800/50 transition-colors"

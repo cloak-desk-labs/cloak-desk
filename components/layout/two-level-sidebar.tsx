@@ -18,7 +18,7 @@ import {
   Book,
 } from "lucide-react"
 import { usePathname, useRouter } from "next/navigation"
-import { cn } from "@/lib/utils"
+import { cn, DOCS_URL } from "@/lib/utils"
 import { useAppStore } from "@/state/useAppStore"
 
 // Softer spring animation curve
@@ -119,7 +119,7 @@ function getSidebarContent(): SidebarContent {
           {
             icon: <Book size={16} className="text-textPrimary" />,
             label: "Documentation",
-            href: process.env.NEXT_PUBLIC_DOCS_URL || "http://localhost:3001",
+            href: DOCS_URL,
             external: true,
           },
         ],
