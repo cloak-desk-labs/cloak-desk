@@ -40,29 +40,26 @@ export const config = getDefaultConfig({
   projectId: projectId || "00000000000000000000000000000000",
   chains: [mainnet, sepolia, polygon, arbitrum, optimism],
   // Explicitly include Phantom wallet in the wallet list
-  // This ensures it's available in the wallet selection modal
-  // On mobile, WalletConnect will show available wallets including Phantom
+  // This ensures it's available in the wallet selection modal on desktop
+  // 
+  // IMPORTANT: On mobile, Phantom may not appear in WalletConnect's modal wallet list
+  // Users can connect Phantom on mobile by:
+  // 1. Scanning the WalletConnect QR code with the Phantom app (Phantom supports WalletConnect)
+  // 2. Using Phantom's in-app browser: Open Phantom → Tap Explore icon → Enter dApp URL
+  // 3. The WalletConnect modal will show a QR code that Phantom can scan
+  //
+  // Note: WalletConnect's mobile modal shows wallets from their registry.
+  // Phantom should work via QR code scanning even if it doesn't appear in the list.
   wallets: [
     {
       groupName: "Popular",
       wallets: [
         metaMaskWallet,
         coinbaseWallet,
-        phantomWallet({ projectId: projectId || "00000000000000000000000000000000" }), // Configure Phantom with projectId
+        phantomWallet, // Phantom wallet for EVM chains - works on mobile via WalletConnect QR code
         trustWallet,
         rainbowWallet,
-        walletConnectWallet({ 
-          projectId: projectId || "00000000000000000000000000000000",
-          // Configure WalletConnect to ensure Phantom appears in mobile modal
-          options: {
-            metadata: {
-              name: "CloakDesk",
-              description: "Privacy-first blockchain privacy dashboard",
-              url: typeof window !== "undefined" ? window.location.origin : "https://cloakdesk.io",
-              icons: typeof window !== "undefined" ? [`${window.location.origin}/icon.png`] : [],
-            },
-          },
-        }),
+        // walletConnectWallet is automatically included by getDefaultConfig
       ],
     },
   ],
