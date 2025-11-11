@@ -24,8 +24,7 @@ export const metadata: Metadata = {
   creator: "CloakDesk",
   publisher: "CloakDesk",
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_DOCS_URL || 
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://docs.cloakdesk.xyz")
+   "https://docs.cloakdesk.xyz"
   ),
   openGraph: {
     type: "website",
@@ -37,8 +36,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/og-banner.png",
-        width: 1200,
-        height: 630,
+        width: 1440,
+        height: 810,
         alt: "CloakDesk Documentation",
         type: "image/png",
       },

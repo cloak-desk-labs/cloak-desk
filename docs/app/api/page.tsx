@@ -11,8 +11,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/og-banner.png",
-        width: 1200,
-        height: 630,
+        width: 1440,
+        height: 810,
         alt: "CloakDesk Documentation - API Reference",
       },
     ],

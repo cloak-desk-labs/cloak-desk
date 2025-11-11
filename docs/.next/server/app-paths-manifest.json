@@ -2,13 +2,13 @@
   "/_not-found/page": "app/_not-found/page.js",
   "/features/leaderboard/page": "app/features/leaderboard/page.js",
   "/features/mpc-vault/page": "app/features/mpc-vault/page.js",
-  "/features/relayer-marketplace/page": "app/features/relayer-marketplace/page.js",
-  "/features/wallet-shadowing/page": "app/features/wallet-shadowing/page.js",
   "/features/privacy-health/page": "app/features/privacy-health/page.js",
+  "/features/relayer-marketplace/page": "app/features/relayer-marketplace/page.js",
   "/features/stealth-routing/page": "app/features/stealth-routing/page.js",
   "/features/selective-disclosure/page": "app/features/selective-disclosure/page.js",
+  "/features/wallet-shadowing/page": "app/features/wallet-shadowing/page.js",
+  "/api/page": "app/api/page.js",
   "/page": "app/page.js",
   "/features/page": "app/features/page.js",
-  "/getting-started/page": "app/getting-started/page.js",
-  "/api/page": "app/api/page.js"
+  "/getting-started/page": "app/getting-started/page.js"
 }

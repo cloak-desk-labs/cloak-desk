@@ -41,16 +41,28 @@ export const config = getDefaultConfig({
   chains: [mainnet, sepolia, polygon, arbitrum, optimism],
   // Explicitly include Phantom wallet in the wallet list
   // This ensures it's available in the wallet selection modal
+  // On mobile, WalletConnect will show available wallets including Phantom
   wallets: [
     {
       groupName: "Popular",
       wallets: [
         metaMaskWallet,
         coinbaseWallet,
-        phantomWallet, // Phantom wallet for EVM chains
+        phantomWallet({ projectId: projectId || "00000000000000000000000000000000" }), // Configure Phantom with projectId
         trustWallet,
         rainbowWallet,
-        walletConnectWallet, // WalletConnect for mobile deep linking
+        walletConnectWallet({ 
+          projectId: projectId || "00000000000000000000000000000000",
+          // Configure WalletConnect to ensure Phantom appears in mobile modal
+          options: {
+            metadata: {
+              name: "CloakDesk",
+              description: "Privacy-first blockchain privacy dashboard",
+              url: typeof window !== "undefined" ? window.location.origin : "https://cloakdesk.io",
+              icons: typeof window !== "undefined" ? [`${window.location.origin}/icon.png`] : [],
+            },
+          },
+        }),
       ],
     },
   ],
