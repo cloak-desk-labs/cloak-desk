@@ -57,6 +57,13 @@ NEXT_PUBLIC_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY
 
 # API URL (optional, defaults to /api)
 NEXT_PUBLIC_API_URL=/api
+
+# MongoDB Connection String (for decoy wallet storage)
+MONGODB_URI=mongodb+srv://user:password@cluster.mongodb.net/cloak?retryWrites=true&w=majority
+
+# Encryption Key (32 bytes hex string for AES-256-GCM encryption of private keys)
+# Generate a secure key: openssl rand -hex 32
+ENCRYPTION_KEY=your-32-byte-hex-encryption-key-here
 ```
 
 4. Run the development server:

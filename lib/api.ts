@@ -150,11 +150,13 @@ export async function queryRelayers(filters?: {
 }
 
 export async function queueObfuscationTask(task: {
+  userId: string
   sourceWallet: string
   tokens: string[]
   profile: "light" | "standard" | "max"
   scheduledFor?: string
   relayerId?: string
+  chainId?: number
 }): Promise<ApiResponse<ObfuscationTask>> {
   const response = await fetch(`${API_BASE_URL}/obfuscate/queue`, {
     method: "POST",
@@ -164,8 +166,16 @@ export async function queueObfuscationTask(task: {
   return response.json()
 }
 
-export async function getObfuscationTasks(): Promise<ApiResponse<ObfuscationTask[]>> {
-  const response = await fetch(`${API_BASE_URL}/obfuscate/tasks`)
+export async function getObfuscationTasks(
+  userId?: string,
+  chainId?: number
+): Promise<ApiResponse<ObfuscationTask[]>> {
+  const params = new URLSearchParams()
+  if (userId) params.append("userId", userId)
+  if (chainId) params.append("chainId", chainId.toString())
+  
+  const url = `${API_BASE_URL}/obfuscate/tasks${params.toString() ? `?${params.toString()}` : ""}`
+  const response = await fetch(url)
   return response.json()
 }
 
@@ -181,8 +191,13 @@ export async function generateProof(proofType: string, claim: Record<string, any
 export async function getLeaderboard(filters?: {
   timeRange?: string
   chain?: string
+  walletAddress?: string
 }): Promise<ApiResponse<LeaderboardEntry[]>> {
-  const params = new URLSearchParams(filters as any)
+  const params = new URLSearchParams()
+  if (filters?.timeRange) params.append("timeRange", filters.timeRange)
+  if (filters?.chain) params.append("chain", filters.chain)
+  if (filters?.walletAddress) params.append("walletAddress", filters.walletAddress)
+  
   const response = await fetch(`${API_BASE_URL}/leaderboard?${params}`)
   return response.json()
 }
@@ -204,6 +219,87 @@ export async function buyCredits(amount: number, paymentMethod: string): Promise
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ amount, paymentMethod }),
+  })
+  return response.json()
+}
+
+/**
+ * Decoy wallet types
+ */
+export interface DecoyWallet {
+  id: string
+  address: string
+  persona: string
+  status: "active" | "inactive" | "deleted"
+  createdAt: string
+  updatedAt?: string
+  privateKey?: string // Only included when explicitly requested
+}
+
+export interface GenerateWalletsResponse {
+  wallets: DecoyWallet[]
+  count: number
+}
+
+export interface GetWalletsResponse {
+  wallets: DecoyWallet[]
+  count: number
+}
+
+/**
+ * Generate decoy wallets
+ */
+export async function generateDecoyWallets(
+  userId: string,
+  count: number,
+  persona: string
+): Promise<ApiResponse<GenerateWalletsResponse>> {
+  const response = await fetch(`${API_BASE_URL}/wallets/generate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId, count, persona }),
+  })
+  return response.json()
+}
+
+/**
+ * Get decoy wallets for a user
+ */
+export async function getDecoyWallets(
+  userId: string,
+  includePrivateKey: boolean = false
+): Promise<ApiResponse<GetWalletsResponse>> {
+  const params = new URLSearchParams({
+    userId,
+    includePrivateKey: includePrivateKey.toString(),
+  })
+  const response = await fetch(`${API_BASE_URL}/wallets?${params}`)
+  return response.json()
+}
+
+/**
+ * Get private key for a specific wallet
+ */
+export async function getWalletPrivateKey(
+  walletId: string,
+  userId: string
+): Promise<ApiResponse<{ walletId: string; address: string; privateKey: string; warning: string }>> {
+  const params = new URLSearchParams({ userId })
+  const response = await fetch(`${API_BASE_URL}/wallets/${walletId}/private-key?${params}`)
+  return response.json()
+}
+
+/**
+ * Delete a decoy wallet
+ */
+export async function deleteDecoyWallet(
+  walletId: string,
+  userId: string
+): Promise<ApiResponse<{ message: string }>> {
+  const response = await fetch(`${API_BASE_URL}/wallets`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ walletId, userId }),
   })
   return response.json()
 }

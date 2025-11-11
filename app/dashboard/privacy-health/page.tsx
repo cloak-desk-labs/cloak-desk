@@ -10,7 +10,7 @@ import { Switch } from "@/components/ui/switch"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { PrivacyRadarChart } from "@/components/charts/privacy-radar"
 import { BarChartComponent } from "@/components/charts/bar-chart"
-import { startPrivacyAnalysis, getPrivacyAnalysisJob } from "@/lib/api"
+import { startPrivacyAnalysis, getPrivacyAnalysisJob, PrivacyAnalysisResults, InferenceVector } from "@/lib/api"
 import { useAccount } from "wagmi"
 import { useToast } from "@/components/ui/use-toast"
 import { Shield, AlertTriangle, CheckCircle, Info } from "lucide-react"
@@ -29,49 +29,75 @@ export default function PrivacyHealthPage() {
     rotateAddress: false,
   })
 
-  // Mock radar data
-  const radarData = [
-    { name: "Timing", value: 65 },
-    { name: "DEX Preference", value: 42 },
-    { name: "Token Reuse", value: 38 },
-    { name: "Gas Fingerprint", value: 55 },
-  ]
+  // State to store analysis results
+  const [analysisData, setAnalysisData] = React.useState<PrivacyAnalysisResults | null>(null)
+  const [analysisLoading, setAnalysisLoading] = React.useState(false)
 
-  // Mock inference vectors
-  const inferenceVectors = [
-    {
-      id: "1",
-      type: "Linked Funding Address",
-      description: "Your wallet is linked to a known exchange deposit address",
-      riskLevel: "high" as const,
-      recommendedAction: "Use stealth routing to break the link",
-    },
-    {
-      id: "2",
-      type: "DEX A Frequent",
-      description: "You frequently use DEX A, creating a pattern",
-      riskLevel: "medium" as const,
-      recommendedAction: "Rotate through multiple DEXs",
-    },
-    {
-      id: "3",
-      type: "Matching Trade Signature",
-      description: "Your trade patterns match known trader profiles",
-      riskLevel: "low" as const,
-      recommendedAction: "Add random delays to trades",
-    },
-  ]
+  // Use real data from analysis or defaults
+  const radarData = analysisData
+    ? [
+        { name: "Timing", value: analysisData.breakdown.timingPatterns },
+        { name: "DEX Preference", value: analysisData.breakdown.dexPreference },
+        { name: "Token Reuse", value: analysisData.breakdown.tokenReuse },
+        { name: "Gas Fingerprint", value: analysisData.breakdown.gasFingerprint },
+      ]
+    : [
+        { name: "Timing", value: 0 },
+        { name: "DEX Preference", value: 0 },
+        { name: "Token Reuse", value: 0 },
+        { name: "Gas Fingerprint", value: 0 },
+      ]
+
+  const inferenceVectors = analysisData?.inferenceVectors || []
+  const predictabilityScore = analysisData?.predictabilityScore || 0
 
   const handleRunAnalysis = async () => {
-    if (!address) return
+    if (!address) {
+      toast({
+        title: "Wallet Not Connected",
+        description: "Please connect your wallet to run analysis",
+      })
+      return
+    }
 
-    toast({
-      title: "Analysis Started",
-      description: "Privacy analysis is running in the background",
-    })
+    setAnalysisLoading(true)
+    try {
+      toast({
+        title: "Analysis Started",
+        description: "Analyzing your wallet's privacy patterns from blockchain data...",
+      })
 
-    // In production, this would call the actual API
-    // const result = await startPrivacyAnalysis(address)
+      // Call the actual API to analyze wallet
+      const result = await startPrivacyAnalysis(address)
+      if (result.success && result.data) {
+        // Store results in state
+        if (result.data.status === "completed" && result.data.results) {
+          setAnalysisData(result.data.results)
+          toast({
+            title: "Analysis Complete",
+            description: "Privacy analysis completed successfully",
+          })
+        } else {
+          toast({
+            title: "Analysis In Progress",
+            description: "Analysis is being processed",
+          })
+        }
+      } else {
+        toast({
+          title: "Analysis Failed",
+          description: result.error || "Failed to analyze wallet",
+        })
+      }
+    } catch (error) {
+      console.error("Error running analysis:", error)
+      toast({
+        title: "Analysis Error",
+        description: "An error occurred while analyzing your wallet",
+      })
+    } finally {
+      setAnalysisLoading(false)
+    }
   }
 
   const getRiskColor = (risk: "low" | "medium" | "high") => {
@@ -111,18 +137,25 @@ export default function PrivacyHealthPage() {
         <CardHeader>
           <CardTitle>Predictability Score</CardTitle>
           <CardDescription>
-            Lower is more private. Current score: 42/100
+            Lower is more private. Current score: {predictabilityScore.toFixed(0)}/100
+            {analysisLoading && " (Loading...)"}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="mb-6">
-            <Progress value={58} className="h-3" />
+            <Progress value={100 - predictabilityScore} className="h-3" />
             <div className="mt-2 flex justify-between text-sm text-muted">
               <span>More Private</span>
               <span>More Predictable</span>
             </div>
           </div>
-          <PrivacyRadarChart data={radarData} />
+          {analysisLoading ? (
+            <div className="flex items-center justify-center h-64">
+              <p className="text-muted">Loading analysis...</p>
+            </div>
+          ) : (
+            <PrivacyRadarChart data={radarData} />
+          )}
         </CardContent>
       </Card>
 
@@ -135,8 +168,18 @@ export default function PrivacyHealthPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Accordion type="single" collapsible className="w-full">
-            {inferenceVectors.map((vector) => (
+          {analysisLoading ? (
+            <div className="flex items-center justify-center h-32">
+              <p className="text-muted">Loading inference vectors...</p>
+            </div>
+          ) : inferenceVectors.length === 0 ? (
+            <div className="text-center py-8 text-muted">
+              <p className="text-sm">No inference vectors detected</p>
+              <p className="text-xs mt-2">Run analysis to detect privacy risks</p>
+            </div>
+          ) : (
+            <Accordion type="single" collapsible className="w-full">
+              {inferenceVectors.map((vector: InferenceVector) => (
               <AccordionItem key={vector.id} value={vector.id}>
                 <AccordionTrigger className="hover:no-underline">
                   <div className="flex items-center gap-3">
@@ -157,8 +200,9 @@ export default function PrivacyHealthPage() {
                   </div>
                 </AccordionContent>
               </AccordionItem>
-            ))}
-          </Accordion>
+              ))}
+            </Accordion>
+          )}
         </CardContent>
       </Card>
 
@@ -249,13 +293,13 @@ export default function PrivacyHealthPage() {
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-3">
-            <Button variant="primary" className="w-full" onClick={handleRunAnalysis}>
-              Run Obfuscation
+            <Button variant="primary" className="w-full" onClick={handleRunAnalysis} disabled={analysisLoading || !address}>
+              {analysisLoading ? "Analyzing..." : "Run Analysis"}
             </Button>
-            <Button variant="secondary" className="w-full">
+            <Button variant="secondary" className="w-full" disabled={!address}>
               Create Stealth Wallet
             </Button>
-            <Button variant="secondary" className="w-full">
+            <Button variant="secondary" className="w-full" disabled={!address}>
               Purchase Credits
             </Button>
           </div>

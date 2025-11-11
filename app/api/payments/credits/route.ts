@@ -3,7 +3,7 @@ import { ApiResponse } from "@/lib/api"
 
 /**
  * POST /api/payments/credits
- * Buy NOVA credits (stub)
+ * Buy$CLOAK credits (stub)
  */
 export async function POST(request: NextRequest) {
   try {
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
 
     // In production:
     // 1. Process payment via payment provider
-    // 2. Mint or transfer NOVA tokens
+    // 2. Mint or transfer$CLOAK tokens
     // 3. Update user credit balance
     // 4. Return transaction hash
 

@@ -17,7 +17,7 @@ export default function RelayerMarketplacePage() {
     {
       id: "1",
       name: "StealthRelay Alpha",
-      stake: "100,000 NOVA",
+      stake: "100,000$CLOAK",
       uptime: 99.8,
       avgFees: "0.5%",
       compliancePolicy: "kyc-optional" as const,
@@ -28,7 +28,7 @@ export default function RelayerMarketplacePage() {
     {
       id: "2",
       name: "PrivacyNode Pro",
-      stake: "250,000 NOVA",
+      stake: "250,000$CLOAK",
       uptime: 99.9,
       avgFees: "0.3%",
       compliancePolicy: "no-kyc" as const,
@@ -39,7 +39,7 @@ export default function RelayerMarketplacePage() {
     {
       id: "3",
       name: "SecureRelay",
-      stake: "50,000 NOVA",
+      stake: "50,000$CLOAK",
       uptime: 98.5,
       avgFees: "0.7%",
       compliancePolicy: "kyc-enforced" as const,
@@ -145,7 +145,7 @@ export default function RelayerMarketplacePage() {
             <div className="rounded-lg border border-primaryStart/20 bg-bg700 p-4">
               <p className="text-sm font-medium mb-2">Requirements</p>
               <ul className="text-sm text-muted space-y-1">
-                <li>• Minimum stake: 10,000 NOVA</li>
+                <li>• Minimum stake: 10,000$CLOAK</li>
                 <li>• 99%+ uptime SLA</li>
                 <li>• Compliance policy declaration</li>
               </ul>

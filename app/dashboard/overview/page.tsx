@@ -9,7 +9,7 @@ import { Shield, Wallet, Activity, TrendingUp, ExternalLink } from "lucide-react
 import { formatAddress, formatEther } from "@/lib/utils"
 import Link from "next/link"
 import { WalletGraph } from "@/components/graphs/wallet-graph"
-import { getObfuscationTasks } from "@/lib/api"
+import { getObfuscationTasks, startPrivacyAnalysis, getLeaderboard, ObfuscationTask } from "@/lib/api"
 import { useQuery } from "@tanstack/react-query"
 
 /**
@@ -31,7 +31,13 @@ export default function OverviewPage() {
   // Fetch pending obfuscation tasks
   const { data: tasksData } = useQuery({
     queryKey: ["obfuscation-tasks", address],
-    queryFn: () => getObfuscationTasks(),
+    queryFn: async () => {
+      if (!address) return null
+      // Fetch tasks with wallet address parameter
+      const response = await fetch(`/api/obfuscate/tasks?walletAddress=${address}`)
+      const data = await response.json()
+      return data.success ? data.data : null
+    },
     enabled: !!address,
     refetchInterval: 30000, // Refetch every 30 seconds
   })
@@ -112,18 +118,31 @@ export default function OverviewPage() {
 
   // Calculate pending operations from real data
   const pendingOps = React.useMemo(() => {
-    if (!tasksData?.data) return 0
-    return tasksData.data.filter(
-      (task) => task.status === "queued" || task.status === "processing"
+    if (!tasksData) return 0
+    return tasksData.filter(
+      (task: ObfuscationTask) => task.status === "queued" || task.status === "processing"
     ).length
   }, [tasksData])
 
-  // Mock KPIs (these would come from privacy analysis API)
+  // Fetch leaderboard data (lightweight, can be auto-fetched)
+  const { data: leaderboardData } = useQuery({
+    queryKey: ["leaderboard-kpi", address],
+    queryFn: async () => {
+      if (!address) return null
+      const response = await getLeaderboard({ walletAddress: address })
+      return response.success && response.data?.[0] ? response.data[0] : null
+    },
+    enabled: !!address,
+    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+  })
+
+  // Calculate real KPIs from fetched data
+  // Note: Predictability score requires running analysis - users can run it from Privacy Health page
   const kpis = {
-    predictabilityScore: 42, // Lower is better - would come from analysis API
-    stealthCredits: 1250, // Would come from credits API
+    predictabilityScore: 0, // Run analysis from Privacy Health page to get real score
+    stealthCredits: 1250, // Would come from credits API - keeping default for now
     pendingOps: pendingOps,
-    anonymityRank: 156, // Would come from leaderboard API
+    anonymityRank: leaderboardData?.rank || 0,
   }
 
   return (

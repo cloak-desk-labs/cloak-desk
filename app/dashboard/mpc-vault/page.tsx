@@ -123,11 +123,11 @@ export default function MPCVaultPage() {
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-sm text-muted">Operator Stake</span>
-                  <span className="font-medium">10,000 NOVA</span>
+                  <span className="font-medium">10,000$CLOAK</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-muted">Monthly Fee</span>
-                  <span className="font-medium">50 NOVA</span>
+                  <span className="font-medium">50$CLOAK</span>
                 </div>
               </div>
             </CardContent>
