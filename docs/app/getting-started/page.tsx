@@ -1,5 +1,29 @@
 import Link from "next/link"
 import { ArrowRight, Wallet, Shield, CheckCircle } from "lucide-react"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Getting Started - CloakDesk Documentation",
+  description: "Learn how to set up and use CloakDesk to protect your blockchain privacy",
+  openGraph: {
+    title: "Getting Started - CloakDesk Documentation",
+    description: "Learn how to set up and use CloakDesk to protect your blockchain privacy",
+    images: [
+      {
+        url: "/og-banner.png",
+        width: 1200,
+        height: 630,
+        alt: "CloakDesk Documentation - Getting Started",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Getting Started - CloakDesk Documentation",
+    description: "Learn how to set up and use CloakDesk to protect your blockchain privacy",
+    images: ["/og-banner.png"],
+  },
+}
 
 export default function GettingStartedPage() {
   const steps = [
@@ -12,7 +36,7 @@ export default function GettingStartedPage() {
     {
       number: 2,
       title: "View Privacy Health",
-      description: "Get an instant analysis of your wallet's privacy exposure. See risk scores and actionable recommendations.",
+      description: "Get an instant analysis of your wallet&apos;s privacy exposure. See risk scores and actionable recommendations.",
       icon: Shield,
     },
     {
@@ -85,7 +109,7 @@ export default function GettingStartedPage() {
         <div className="card bg-gradient-to-br from-bg800 to-bg700 border-primaryStart/20">
           <h2 className="text-2xl font-semibold text-textPrimary mb-4">Next Steps</h2>
           <p className="text-muted mb-6">
-            Now that you're set up, explore the features and start protecting your privacy.
+            Now that you&apos;re set up, explore the features and start protecting your privacy.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link

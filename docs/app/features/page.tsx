@@ -1,5 +1,29 @@
 import Link from "next/link"
 import { Shield, Route, UserCog, Lock, Eye, Store, Trophy, ArrowRight } from "lucide-react"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Features - CloakDesk Documentation",
+  description: "Explore CloakDesk privacy features including Privacy Health, Stealth Routing, Wallet Shadowing, and more",
+  openGraph: {
+    title: "Features - CloakDesk Documentation",
+    description: "Explore CloakDesk privacy features including Privacy Health, Stealth Routing, Wallet Shadowing, and more",
+    images: [
+      {
+        url: "/og-banner.png",
+        width: 1200,
+        height: 630,
+        alt: "CloakDesk Documentation - Features",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Features - CloakDesk Documentation",
+    description: "Explore CloakDesk privacy features including Privacy Health, Stealth Routing, Wallet Shadowing, and more",
+    images: ["/og-banner.png"],
+  },
+}
 
 export default function FeaturesPage() {
   const features = [

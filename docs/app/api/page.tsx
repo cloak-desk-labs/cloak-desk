@@ -1,5 +1,29 @@
 import Link from "next/link"
 import { Code, ArrowLeft, Terminal, Server, Key } from "lucide-react"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "API Reference - CloakDesk Documentation",
+  description: "Complete API documentation and endpoints for CloakDesk privacy tools",
+  openGraph: {
+    title: "API Reference - CloakDesk Documentation",
+    description: "Complete API documentation and endpoints for CloakDesk privacy tools",
+    images: [
+      {
+        url: "/og-banner.png",
+        width: 1200,
+        height: 630,
+        alt: "CloakDesk Documentation - API Reference",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "API Reference - CloakDesk Documentation",
+    description: "Complete API documentation and endpoints for CloakDesk privacy tools",
+    images: ["/og-banner.png"],
+  },
+}
 
 export default function APIPage() {
   const endpoints = [

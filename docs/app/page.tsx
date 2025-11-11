@@ -1,6 +1,30 @@
 import Link from "next/link"
 import { Shield, Route, Lock, UserCog, Eye, Store, Trophy, ArrowRight, BookOpen, Code, Zap } from "lucide-react"
 import Image from "next/image"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "CloakDesk Documentation - Privacy-First Blockchain Dashboard",
+  description: "Complete guide to protecting your blockchain privacy with advanced tools and features",
+  openGraph: {
+    title: "CloakDesk Documentation - Privacy-First Blockchain Dashboard",
+    description: "Complete guide to protecting your blockchain privacy with advanced tools and features",
+    images: [
+      {
+        url: "/og-banner.png",
+        width: 1200,
+        height: 630,
+        alt: "CloakDesk Documentation",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CloakDesk Documentation - Privacy-First Blockchain Dashboard",
+    description: "Complete guide to protecting your blockchain privacy with advanced tools and features",
+    images: ["/og-banner.png"],
+  },
+}
 
 export default function DocsHomePage() {
   const quickLinks = [

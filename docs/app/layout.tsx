@@ -9,6 +9,63 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "CloakDesk Documentation - Privacy-First Blockchain Dashboard",
   description: "Complete documentation for CloakDesk - Privacy-first web dashboard for blockchain privacy and anonymity",
+  keywords: [
+    "CloakDesk",
+    "blockchain privacy",
+    "crypto privacy",
+    "wallet privacy",
+    "transaction obfuscation",
+    "zero-knowledge proofs",
+    "MPC vault",
+    "stealth routing",
+    "documentation",
+  ],
+  authors: [{ name: "CloakDesk Team" }],
+  creator: "CloakDesk",
+  publisher: "CloakDesk",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_DOCS_URL || 
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://docs.cloakdesk.xyz")
+  ),
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/",
+    title: "CloakDesk Documentation - Privacy-First Blockchain Dashboard",
+    description: "Complete documentation for CloakDesk - Privacy-first web dashboard for blockchain privacy and anonymity",
+    siteName: "CloakDesk Documentation",
+    images: [
+      {
+        url: "/og-banner.png",
+        width: 1200,
+        height: 630,
+        alt: "CloakDesk Documentation",
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CloakDesk Documentation - Privacy-First Blockchain Dashboard",
+    description: "Complete documentation for CloakDesk - Privacy-first web dashboard for blockchain privacy and anonymity",
+    images: ["/og-banner.png"],
+    creator: "@cloakdesk",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
 }
 
 export default function RootLayout({
