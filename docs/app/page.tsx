@@ -9,9 +9,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: "CloakDesk Documentation - Privacy-First Blockchain Dashboard",
     description: "Complete guide to protecting your blockchain privacy with advanced tools and features",
+    url: "https://docs.cloakdesk.xyz",
     images: [
       {
-        url: "/og-banner.png",
+        url: "https://docs.cloakdesk.xyz/og-banner.png",
         width: 1440,
         height: 810,
         alt: "CloakDesk Documentation",
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "CloakDesk Documentation - Privacy-First Blockchain Dashboard",
     description: "Complete guide to protecting your blockchain privacy with advanced tools and features",
-    images: ["/og-banner.png"],
+    images: ["https://docs.cloakdesk.xyz/og-banner.png"],
   },
 }
 

@@ -8,9 +8,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: "API Reference - CloakDesk Documentation",
     description: "Complete API documentation and endpoints for CloakDesk privacy tools",
+    url: "https://docs.cloakdesk.xyz/api",
     images: [
       {
-        url: "/og-banner.png",
+        url: "https://docs.cloakdesk.xyz/og-banner.png",
         width: 1440,
         height: 810,
         alt: "CloakDesk Documentation - API Reference",
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "API Reference - CloakDesk Documentation",
     description: "Complete API documentation and endpoints for CloakDesk privacy tools",
-    images: ["/og-banner.png"],
+    images: ["https://docs.cloakdesk.xyz/og-banner.png"],
   },
 }
 

@@ -23,19 +23,17 @@ export const metadata: Metadata = {
   authors: [{ name: "CloakDesk Team" }],
   creator: "CloakDesk",
   publisher: "CloakDesk",
-  metadataBase: new URL(
-   "https://docs.cloakdesk.xyz"
-  ),
+  metadataBase: new URL("https://docs.cloakdesk.xyz"),
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "/",
+    url: "https://docs.cloakdesk.xyz",
     title: "CloakDesk Documentation - Privacy-First Blockchain Dashboard",
     description: "Complete documentation for CloakDesk - Privacy-first web dashboard for blockchain privacy and anonymity",
     siteName: "CloakDesk Documentation",
     images: [
       {
-        url: "/og-banner.png",
+        url: "https://docs.cloakdesk.xyz/og-banner.png",
         width: 1440,
         height: 810,
         alt: "CloakDesk Documentation",
@@ -47,7 +45,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "CloakDesk Documentation - Privacy-First Blockchain Dashboard",
     description: "Complete documentation for CloakDesk - Privacy-first web dashboard for blockchain privacy and anonymity",
-    images: ["/og-banner.png"],
+    images: ["https://docs.cloakdesk.xyz/og-banner.png"],
     creator: "@cloakdesk",
   },
   robots: {

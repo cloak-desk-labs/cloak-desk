@@ -8,9 +8,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Features - CloakDesk Documentation",
     description: "Explore CloakDesk privacy features including Privacy Health, Stealth Routing, Wallet Shadowing, and more",
+    url: "https://docs.cloakdesk.xyz/features",
     images: [
       {
-        url: "/og-banner.png",
+        url: "https://docs.cloakdesk.xyz/og-banner.png",
         width: 1440,
         height: 810,
         alt: "CloakDesk Documentation - Features",
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Features - CloakDesk Documentation",
     description: "Explore CloakDesk privacy features including Privacy Health, Stealth Routing, Wallet Shadowing, and more",
-    images: ["/og-banner.png"],
+    images: ["https://docs.cloakdesk.xyz/og-banner.png"],
   },
 }
 
