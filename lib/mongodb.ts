@@ -7,10 +7,23 @@ import { MongoClient, Db, Collection, Document } from "mongodb"
  * Note: In production, use connection pooling and handle reconnections
  */
 
-// MongoDB connection string from environment or use provided one
-const MONGODB_URI =
-  process.env.MONGODB_URI ||
-  "mongodb+srv://youssef_db_user:zrssFZPaW9QMoSAo@cluster0.pwcpj54.mongodb.net/cloak?retryWrites=true&w=majority&appName=Cluster0"
+// MongoDB connection string from environment variable
+// WARNING: Never hardcode connection strings with credentials in source code
+// Always use environment variables for production
+const MONGODB_URI = process.env.MONGODB_URI
+
+if (!MONGODB_URI && process.env.NODE_ENV === "production") {
+  console.error(
+    "⚠️ ERROR: MONGODB_URI environment variable is required in production!"
+  )
+  throw new Error("MONGODB_URI environment variable is not set")
+}
+
+if (!MONGODB_URI) {
+  console.warn(
+    "⚠️ WARNING: MONGODB_URI not set. MongoDB features will not work."
+  )
+}
 
 const MONGODB_DB_NAME = process.env.MONGODB_DB_NAME || "cloak"
 
@@ -25,6 +38,13 @@ let db: Db | null = null
 export async function getDatabase(): Promise<Db> {
   if (db) {
     return db
+  }
+
+  // Check if MongoDB URI is configured
+  if (!MONGODB_URI) {
+    throw new Error(
+      "MONGODB_URI environment variable is not set. Please configure it in your .env.local file."
+    )
   }
 
   try {
