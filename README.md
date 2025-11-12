@@ -4,6 +4,7 @@
 
 ![CloakDesk Logo](./public/logo.png)
 
+
 **Privacy-First Blockchain Privacy Dashboard**
 
 *Advanced on-chain privacy tools for Ethereum and EVM chains*
