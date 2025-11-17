@@ -51,6 +51,30 @@ export default function PrivacyHealthPage() {
   const inferenceVectors = analysisData?.inferenceVectors || []
   const predictabilityScore = analysisData?.predictabilityScore || 0
 
+  const riskFactorStudy = React.useMemo(() => {
+    if (!analysisData) return null
+
+    const { timingPatterns, dexPreference, tokenReuse, gasFingerprint } = analysisData.breakdown
+    const factors = [
+      { id: "timingPatterns", label: "Timing patterns", value: timingPatterns },
+      { id: "dexPreference", label: "DEX preference", value: dexPreference },
+      { id: "tokenReuse", label: "Token reuse", value: tokenReuse },
+      { id: "gasFingerprint", label: "Gas fingerprint", value: gasFingerprint },
+    ]
+
+    const sorted = [...factors].sort((a, b) => b.value - a.value)
+    const total = factors.reduce((sum, f) => sum + f.value, 0) || 1
+
+    return {
+      primary: sorted[0],
+      secondary: sorted[1] || null,
+      distribution: factors.map((f) => ({
+        ...f,
+        pct: Math.round((f.value / total) * 100),
+      })),
+    }
+  }, [analysisData])
+
   const handleRunAnalysis = async () => {
     if (!address) {
       toast({
@@ -207,6 +231,47 @@ export default function PrivacyHealthPage() {
       </Card>
 
       {/* Privacy Simulator */}
+      {riskFactorStudy && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Risk Factor Study</CardTitle>
+            <CardDescription>
+              How much each pattern contributes to your current predictability score
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-1">
+              <p className="text-sm text-muted">Primary driver</p>
+              <p className="text-lg font-semibold text-textPrimary">
+                {riskFactorStudy.primary.label}
+              </p>
+              {riskFactorStudy.secondary && (
+                <p className="text-xs text-muted">
+                  Secondary driver: {riskFactorStudy.secondary.label}
+                </p>
+              )}
+            </div>
+
+            <div className="grid gap-3 md:grid-cols-4">
+              {riskFactorStudy.distribution.map((factor) => (
+                <div key={factor.id} className="space-y-1">
+                  <p className="text-xs text-muted">{factor.label}</p>
+                  <p className="text-sm font-medium text-textPrimary">
+                    {factor.value.toFixed(0)} / 100
+                  </p>
+                  <p className="text-xs text-muted">{factor.pct}% of score</p>
+                </div>
+              ))}
+            </div>
+
+            <p className="text-xs text-muted">
+              This lightweight study is derived from the same breakdown used in your Privacy Health
+              analysis and is intended to highlight which behaviours are most visible on-chain.
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
       <Card>
         <CardHeader>
           <CardTitle>Privacy Simulator</CardTitle>

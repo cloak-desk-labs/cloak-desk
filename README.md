@@ -25,6 +25,7 @@
 
 - [Overview](#overview)
 - [Features](#features)
+- [Research & Privacy Studies](#research--privacy-studies)
 - [Architecture](#architecture)
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
@@ -157,6 +158,34 @@ Track privacy rankings and earn badges:
 - **Badge System** - Earn achievements for privacy milestones
 - **Progress Tracking** - Monitor privacy improvements over time
 - **Community Rankings** - See how you compare to other users
+
+## 🔬 Research & Privacy Studies
+
+CloakDesk includes lightweight, in-app studies that help users understand how their behaviour looks to typical on-chain analysis tools, without leaving the privacy dashboard.
+
+### Behavioral Study (Dashboard Overview)
+
+On the **Overview** page, CloakDesk derives a small behavioural snapshot from your most recent transactions:
+
+- **Direction mix** – Count of sent vs received transactions
+- **Average transaction size** – Mean value of the last few on-chain transfers
+- **Unique counterparties** – How many distinct addresses you interacted with
+- **Average time between transactions** – Coarse timing signal for activity regularity
+
+This study is built directly from live block data fetched via the connected network client and mirrors what a basic external observer could infer from the public mempool and chain history.
+
+### Risk Factor Study (Privacy Health)
+
+On the **Privacy Health** page, the **Risk Factor Study** decomposes your predictability score into its primary drivers:
+
+- Identifies the **primary** and **secondary** contributors among:
+  - Timing patterns
+  - DEX preference
+  - Token reuse
+  - Gas fingerprint
+- Shows a simple **percentage breakdown** of how much each factor contributes to the current score
+
+The study reuses the same underlying breakdown as the main analysis and presents it as an at-a-glance explanation of *why* your predictability score looks the way it does, aligning with the product vision of transparency and explainable privacy.
 
 ---
 

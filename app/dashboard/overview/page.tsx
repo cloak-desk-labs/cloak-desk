@@ -124,6 +124,61 @@ export default function OverviewPage() {
     ).length
   }, [tasksData])
 
+  const behaviorStudy = React.useMemo(() => {
+    if (!recentTransactions || recentTransactions.length === 0 || !address) {
+      return null
+    }
+
+    const total = recentTransactions.length
+    let outgoing = 0
+    let incoming = 0
+    let totalValue = BigInt(0)
+    const timestamps: number[] = []
+    const counterparties = new Set<string>()
+
+    for (const tx of recentTransactions) {
+      if (!tx || !tx.value) continue
+      totalValue += tx.value
+
+      if (tx.from?.toLowerCase() === address.toLowerCase()) {
+        outgoing += 1
+        if (tx.to) {
+          counterparties.add(tx.to.toLowerCase())
+        }
+      } else if (tx.to?.toLowerCase() === address.toLowerCase()) {
+        incoming += 1
+        if (tx.from) {
+          counterparties.add(tx.from.toLowerCase())
+        }
+      }
+
+      if (tx.timestamp instanceof Date) {
+        timestamps.push(tx.timestamp.getTime())
+      }
+    }
+
+    let avgTimeMinutes = 0
+    if (timestamps.length > 1) {
+      timestamps.sort((a, b) => a - b)
+      let totalDiff = 0
+      for (let i = 1; i < timestamps.length; i++) {
+        totalDiff += timestamps[i] - timestamps[i - 1]
+      }
+      avgTimeMinutes = Math.round(totalDiff / (timestamps.length - 1) / 60000)
+    }
+
+    const avgValueEth = total > 0 ? Number(formatEther(totalValue)) / total : 0
+
+    return {
+      total,
+      outgoing,
+      incoming,
+      avgValueEth,
+      uniqueCounterparties: counterparties.size,
+      avgTimeMinutes,
+    }
+  }, [recentTransactions, address])
+
   // Fetch leaderboard data (lightweight, can be auto-fetched)
   const { data: leaderboardData } = useQuery({
     queryKey: ["leaderboard-kpi", address],
@@ -340,6 +395,50 @@ export default function OverviewPage() {
           .slice(0, 5)
         }
       />
+
+      {behaviorStudy && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Behavioral Study (Last {behaviorStudy.total} Transactions)</CardTitle>
+            <CardDescription>
+              Snapshot of how your recent activity might look to basic on-chain analysis
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4 md:grid-cols-3">
+              <div>
+                <p className="text-sm text-muted">Direction</p>
+                <p className="mt-1 text-lg font-semibold text-textPrimary">
+                  {behaviorStudy.outgoing} sent / {behaviorStudy.incoming} received
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-muted">Average Transaction Size</p>
+                <p className="mt-1 text-lg font-semibold text-textPrimary">
+                  {behaviorStudy.avgValueEth.toFixed(4)} ETH
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-muted">Unique Counterparties</p>
+                <p className="mt-1 text-lg font-semibold text-textPrimary">
+                  {behaviorStudy.uniqueCounterparties}
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-muted">Average Time Between Transactions</p>
+                <p className="mt-1 text-lg font-semibold text-textPrimary">
+                  {behaviorStudy.avgTimeMinutes > 0 ? `${behaviorStudy.avgTimeMinutes} min` : "n/a"}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs text-muted">
+                  Based on the last {behaviorStudy.total} transactions visible to the selected network.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Quick Actions */}
       <Card>
