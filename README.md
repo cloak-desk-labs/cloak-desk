@@ -160,6 +160,20 @@ Track privacy rankings and earn badges:
 - **Progress Tracking** - Monitor privacy improvements over time
 - **Community Rankings** - See how you compare to other users
 
+### 🤖 AI Privacy Copilot
+
+Chat with an embedded privacy expert powered by OpenRouter models:
+
+- **Context-Aware Guidance** - Summarizes recent wallet analytics and suggests next steps
+- **Threat Simulation Q&A** - Ask “what if” questions and receive tailored mitigation playbooks
+- **Prompt Safety** - OpenRouter moderation + in-app guardrails block malicious or deanonymizing requests
+- **Multi-Model Routing** - Dynamically selects GPT-NeoX, Claude, or Llama derivatives via OpenRouter for best latency/cost profile
+
+**Integration Details:**
+- Server route proxies requests to `https://openrouter.ai/api/v1/chat/completions`
+- Requires `OPENROUTER_API_KEY` and optional `OPENROUTER_MODEL` env vars
+- Responses are streamed to the dashboard chat widget with typing indicators and retry controls
+
 ## 🔬 Research & Privacy Studies
 
 CloakDesk includes lightweight, in-app studies that help users understand how their behaviour looks to typical on-chain analysis tools, without leaving the privacy dashboard.
@@ -404,6 +418,7 @@ components/
 - **npm**, **yarn**, or **pnpm** package manager
 - **WalletConnect Project ID** (get from [cloud.walletconnect.com](https://cloud.walletconnect.com))
 - **MongoDB** (for decoy wallet storage - optional for basic features)
+- **OpenRouter API Key** (for AI Privacy Copilot)
 
 ### Installation
 
@@ -443,6 +458,10 @@ MONGODB_URI=mongodb+srv://user:password@cluster.mongodb.net/cloak?retryWrites=tr
 # Required for wallet shadowing: Encryption key (32 bytes hex)
 # Generate with: openssl rand -hex 32
 ENCRYPTION_KEY=your-32-byte-hex-encryption-key-here
+
+# Required for AI Privacy Copilot: OpenRouter API key + preferred model
+OPENROUTER_API_KEY=sk-your-openrouter-key
+OPENROUTER_MODEL=anthropic/claude-3-haiku:beta
 ```
 
 4. **Run the development server**:
