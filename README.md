@@ -15,7 +15,7 @@
 [![Ethers.js](https://img.shields.io/badge/Ethers.js-6.13-627EEA?style=flat-square&logo=ethereum)](https://ethers.org/)
 [![Wagmi](https://img.shields.io/badge/Wagmi-2.6-627EEA?style=flat-square)](https://wagmi.sh/)
 
-[Live App](https://cloakdesk.app) • [Documentation](https://docs.cloakdesk.xyz) • [GitHub](https://github.com/cloakdesk)
+[Live App](https://www.cloakdesk.xyz/) • [Documentation](https://docs.cloakdesk.xyz) • [GitHub](https://github.com/cloak-desk-labs/cloak-desk)
 
 </div>
 
@@ -1109,9 +1109,9 @@ We welcome contributions! Please follow these guidelines:
 
 ## 🔗 Links
 
-- **Live Application**: [https://cloakdesk.app](https://cloakdesk.app)
+- **Live Application**: [https://www.cloakdesk.xyz/](https://www.cloakdesk.xyz/)
 - **Documentation**: [https://docs.cloakdesk.xyz](https://docs.cloakdesk.xyz)
-- **GitHub Repository**: [https://github.com/cloakdesk](https://github.com/cloakdesk)
+- **GitHub Repository**: [https://github.com/cloak-desk-labs/cloak-desk](https://github.com/cloak-desk-labs/cloak-desk)
 - **Support Email**: [support@cloakdesk.io](mailto:support@cloakdesk.io)
 
 ---
@@ -1133,6 +1133,6 @@ This software is provided for educational and research purposes. Privacy tooling
 
 **Built with ❤️ by the CloakDesk Team**
 
-[Privacy First](https://cloakdesk.app) • [Documentation](https://docs.cloakdesk.xyz) • [GitHub](https://github.com/cloakdesk)
+[Privacy First](https://www.cloakdesk.xyz/) • [Documentation](https://docs.cloakdesk.xyz) • [GitHub](https://github.com/cloak-desk-labs/cloak-desk)
 
 </div>

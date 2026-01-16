@@ -10,7 +10,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4-38bdf8?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
 
-[Live Documentation](https://docs.cloakdesk.xyz) • [Main App](https://cloakdesk.app) • [GitHub](https://github.com/cloakdesk)
+[Live Documentation](https://docs.cloakdesk.xyz) • [Main App](https://www.cloakdesk.xyz/) • [GitHub](https://github.com/cloak-desk-labs/cloak-desk)
 
 </div>
 
@@ -587,8 +587,8 @@ This documentation is part of the CloakDesk project. See the main repository for
 ## 🔗 Links
 
 - **Live Documentation**: [https://docs.cloakdesk.xyz](https://docs.cloakdesk.xyz)
-- **Main Application**: [https://cloakdesk.app](https://cloakdesk.app)
-- **GitHub Repository**: [https://github.com/cloakdesk](https://github.com/cloakdesk)
+- **Main Application**: [https://www.cloakdesk.xyz/](https://www.cloakdesk.xyz/)
+- **GitHub Repository**: [https://github.com/cloak-desk-labs/cloak-desk](https://github.com/cloak-desk-labs/cloak-desk)
 - **Support**: [support@cloakdesk.io](mailto:support@cloakdesk.io)
 
 ---
@@ -597,7 +597,7 @@ This documentation is part of the CloakDesk project. See the main repository for
 
 **Built with ❤️ by the CloakDesk Team**
 
-[Privacy First](https://cloakdesk.app) • [Documentation](https://docs.cloakdesk.xyz) • [GitHub](https://github.com/cloakdesk)
+[Privacy First](https://www.cloakdesk.xyz/) • [Documentation](https://docs.cloakdesk.xyz) • [GitHub](https://github.com/cloak-desk-labs/cloak-desk)
 
 </div>
 

@@ -121,7 +121,7 @@ export default function GettingStartedPage() {
               <ArrowRight className="h-5 w-5" />
             </Link>
             <a
-              href="https://cloakdesk.app"
+              href="https://www.cloakdesk.xyz/"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-secondary inline-flex items-center gap-2"

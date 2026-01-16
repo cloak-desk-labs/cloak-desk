@@ -109,7 +109,7 @@ export default function RootLayout({
                   API
                 </Link>
                 <a
-                  href="https://cloakdesk.app"
+                  href="https://www.cloakdesk.xyz/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-primaryStart hover:text-primaryEnd transition-colors"
@@ -168,7 +168,7 @@ export default function RootLayout({
                 <ul className="space-y-2 text-sm text-muted">
                   <li>
                     <a
-                      href="https://cloakdesk.app"
+                      href="https://www.cloakdesk.xyz/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:text-textPrimary transition-colors"
@@ -178,7 +178,7 @@ export default function RootLayout({
                   </li>
                   <li>
                     <a
-                      href="https://github.com/cloakdesk"
+                      href="https://github.com/cloak-desk-labs/cloak-desk"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:text-textPrimary transition-colors"

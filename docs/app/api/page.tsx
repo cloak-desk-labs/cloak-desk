@@ -145,7 +145,14 @@ export default function APIPage() {
                     }`}>
                       {endpoint.method}
                     </span>
-                    <code className="text-textPrimary font-mono text-sm flex-1">{endpoint.path}</code>
+                    <a
+                      href="https://www.cloakdesk.xyz/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-secondary inline-flex items-center gap-2"
+                    >
+                      <code className="text-textPrimary font-mono text-sm flex-1">{endpoint.path}</code>
+                    </a>
                   </div>
                   <p className="text-muted text-sm ml-20">{endpoint.description}</p>
                 </div>
